@@ -1,38 +1,47 @@
-<mat-card >
-  <form (submit)="onAddPost(postForm)"  #postForm="ngForm">
-    <mat-form-field>
+<div *ngIf="!this.toggler" style="float: right;">
+  <button mat-raised-button (click)="add()" >Add New Task</button>
+</div>
+<div *ngIf="this.toggler">
+  <mat-card>
+        <form class="example-form"  (submit)="onAddPost(postForm)" #postForm="ngForm">
+      <mat-form-field class="example-full-width">
+        <mat-label>Task</mat-label>
+        <input matInput placeholder="Name" type="text" name="title" ngModel required minlength="3" #title="ngModel"
+          placeholder="post title">
+        <mat-error *ngIf="title.invalid ">Title of the Task</mat-error>
 
-      <input
-      matInput
-      type="text"
-      name="title"
-      ngModel
-      required
-      minlength="3"
-      #title="ngModel"
-      placeholder="post title">
-      <mat-error *ngIf="title.invalid ">please enter proper title!</mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
 
-    </mat-form-field>
-    <mat-form-field >
+        <textarea matInput rows="4" placeholder="Description" name="content" ngModel required #content="ngModel"
+          placeholder="post content"></textarea>
+        <mat-error *ngIf="content.invalid ">Task Description</mat-error>
 
-      <textarea
-       matInput
-       rows="4"
-       name="content"
-       ngModel
-       required
-       #content="ngModel"
-       placeholder="post content"></textarea>
-       <mat-error *ngIf="content.invalid ">please enter some content!</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit">Create Task</button>
+      <button mat-raised-button style="margin-left: 10px;" (click)="cancel()">Cancel</button>
 
-    </mat-form-field>
-    <button mat-raised-button
-    color="primary"
-    type="submit">save post</button>
+    </form>
+  </mat-card>
 
-</form>
-</mat-card>
+</div>
+<h1>To DO Tasks</h1>
+<mat-accordion multi="true" *ngIf="posts.length>0">
+  <mat-expansion-panel *ngFor="let post of posts">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{post.title}}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{post.content}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
 
-<hr>
+    <mat-action-row>
+      <button mat-button color="accent">EDIT</button>
+      <button mat-button color="warn" (click)="onDelete(post.id)">DELETE</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
 
+<p class="info-text mat-body-strong" *ngIf="posts.length<=0 ">No posts added yet!</p>

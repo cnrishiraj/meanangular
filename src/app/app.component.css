@@ -3,3 +3,9 @@ main{
   margin:1rem auto;
 
 }
+.example-card{
+  width: 35%;
+  margin-left: 28%;
+  margin-top:15%;
+  align-items: center;
+}
